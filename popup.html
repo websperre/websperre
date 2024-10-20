@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <script src="popup.js" type="text/javascript" defer></script>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #0b192c;
+                color: #ffffff;
+            }
+            body * {
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+            nav {
+                text-align: center;
+                background-color: #1e3e62;
+                padding: 1px;
+            }
+            nav > a {
+                text-decoration: none;
+                color: #ffffff;
+            }
+            nav > a:hover {
+                color: #ff6500;
+            }
+            input[type="url"] {
+                background: none;
+                text-decoration: none;
+                outline: none;
+                border-width: 0;
+                border-radius: 0;
+                border-bottom: 1px dotted #ffffff;
+                color: #ffffff;
+                width: 99%;
+            }
+            input[type="text"] {
+                background: none;
+                text-decoration: none;
+                outline: none;
+                border-width: 0;
+                border-radius: 0;
+                border-bottom: 1px dotted #ffffff;
+                width: 99%;
+            }
+            input[type="radio"] {
+                appearance: none;
+                width: 16px;
+                height: 16px;
+                border: 2px solid #ffffff;
+                transition: 0.2s all linear;
+            }
+            input[type="radio"]:checked {
+                border: 6px solid white;
+            }
+            button,
+            legend {
+                border: 0;
+                color: #ffffff;
+                background-color: #1e3e62;
+                padding: 4px 8px;
+            }
+            button:hover {
+                color: #ff6500;
+                cursor: pointer;
+            }
+            button:active {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .center {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+        <title>Websperre</title>
+    </head>
+    <body>
+        <nav>
+            <a href="https://github.com/opp/websperre" target="_blank">
+                <h3>Websperre</h3>
+            </a>
+        </nav>
+        <main>
+            <p><i>URL:</i> <input type="url" id="current-url" title="URL" /></p>
+            <fieldset>
+                <legend>Block options:</legend>
+                <div>
+                    <input
+                        type="radio"
+                        id="regex-match"
+                        name="edit-url"
+                        value="Regex match entire domain"
+                        title="Regex match entire domain"
+                        checked
+                    />
+                    <label for="regex-match" title="Regex match entire domain">
+                        Regex match entire domain
+                    </label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="exact-url"
+                        name="edit-url"
+                        value="Exactly match URL"
+                        title="Exactly match URL"
+                    />
+                    <label for="exact-url" title="Exactly match URL">
+                        Exactly match URL
+                    </label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="custom-edit"
+                        name="edit-url"
+                        value="Custom edit"
+                        title="Custom edit"
+                    />
+                    <label for="custom-edit" title="Custom edit">
+                        Custom edit
+                    </label>
+                </div>
+                <p>
+                    <i>Final URL to block:</i>
+                    <input
+                        type="text"
+                        id="final-url"
+                        title="(disabled input) Final URL to block"
+                        disabled
+                    />
+                </p>
+                <div class="center">
+                    <button title="Add URL to block list" id="add-button">
+                        Add URL to block list
+                    </button>
+                </div>
+            </fieldset>
+        </main>
+    </body>
+</html>

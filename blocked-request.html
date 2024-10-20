@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <script src="blocked-request.js" type="text/javascript" defer></script>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #0b192c;
+                color: #ffffff;
+            }
+            body * {
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+            nav {
+                text-align: center;
+                background-color: #1e3e62;
+                padding: 1px;
+            }
+            nav > a {
+                text-decoration: none;
+                color: #ffffff;
+            }
+            nav > a:hover {
+                color: #ff6500;
+            }
+            main {
+                margin: 200px;
+                padding: 50px;
+                border: 3px dotted #1e3e62;
+                border-radius: 0;
+            }
+            .center {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+            button {
+                border: 0;
+                color: #ffffff;
+                background-color: #1e3e62;
+                padding: 4px 8px;
+            }
+            button:hover {
+                color: #ff6500;
+                cursor: pointer;
+            }
+            button:active {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            input {
+                background: none;
+                text-decoration: none;
+                outline: none;
+                color: #ffffff;
+            }
+            .fill-blocked-urls {
+                display: grid;
+                grid-template-rows: 1fr;
+                gap: 4px 4px;
+                border: 1px solid #1e3e62;
+                padding: 8px;
+            }
+            /* .fill-blocked-urls > div {
+                border-bottom: dotted 1px #ffffff;
+                border-radius: 0;
+            } */
+        </style>
+        <title>Blocked URL // Websperre</title>
+    </head>
+    <body>
+        <nav>
+            <a href="https://github.com/opp/websperre" target="_blank">
+                <h3>Websperre</h3>
+            </a>
+        </nav>
+        <main>
+            <div class="center">
+                <h2>Blocked URL</h2>
+                <p>
+                    <button id="close-tab" title="Close tab">Close tab</button>
+                    <button id="list-blocked" title="List all blocked URLs">
+                        List all blocked URLs
+                    </button>
+                </p>
+                <p hidden id="password-info">
+                    A random number between 1-100.000 was set as password. Guess
+                    it correctly to see the blocked URL list.
+                </p>
+                <p hidden id="guess-input">
+                    <input
+                        type="password"
+                        id="guess-password"
+                        placeholder="password"
+                    />
+                    <button id="guess-btn" title="Guess">Guess</button>
+                </p>
+                <div id="fill-blocked-urls" class="fill-blocked-urls">
+                    <!-- <div>new 1 <button>btn 1</button></div>
+                    <div>new 2 <button>btn 2</button></div> -->
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
