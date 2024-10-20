@@ -12,16 +12,16 @@ const closeTab = () => window.close();
 closeTabBtn.addEventListener("click", closeTab);
 
 const unhidePwInfo = () => {
-  if (passwordInfo.hidden === true || guessInput.hidden === true) {
-    listBlockedBtn.hidden = true;
-    passwordInfo.hidden = false;
-    guessInput.hidden = false;
-    guessPw.focus();
-  }
+    if (passwordInfo.hidden === true || guessInput.hidden === true) {
+        listBlockedBtn.hidden = true;
+        passwordInfo.hidden = false;
+        guessInput.hidden = false;
+        guessPw.focus();
+    }
 };
 listBlockedBtn.addEventListener("click", unhidePwInfo);
 
 const revealBlockedList = () => {
-  console.log("reveal func");
+    console.log("reveal func");
 };
 guessBtn.addEventListener("click", revealBlockedList);
