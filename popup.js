@@ -10,19 +10,26 @@ const customEdit = document.querySelector("#custom-edit");
 let currentTabUrl = "";
 let urlTypeUrl = "";
 
+// TODO: implement fisher-yates shuffle algo
 const addToList = () => {
     browser.storage.local
         .get("gs")
         .then((result) => {
-            const gesperrt_seiten = result.gs || [];
-            gesperrt_seiten.push(btoa(finalUrlInput.value));
+            const gesperrtSeiten = result.gs || [];
+            gesperrtSeiten.push(btoa(finalUrlInput.value));
+            addBtn.innerHTML = "Added";
+            addBtn.disabled = true;
             return browser.storage.local.set({
-                gs: gesperrt_seiten,
+                gs: gesperrtSeiten,
             });
         })
         .catch((err) => {
             console.error("error saving data. ERROR:", err);
         });
+
+    setTimeout(() => {
+        browser.runtime.reload(); // intentional reload
+    }, 500);
 };
 addBtn.addEventListener("click", addToList);
 
@@ -42,39 +49,42 @@ const finalUrlCustom = () => {
     currentUrlInput.addEventListener("keyup", (e) => {
         finalUrlInput.value = currentUrlInput.value;
     });
-    setTimeout(
-        (e) => (currentUrlInput.style.backgroundColor = "#0b192c"),
-        1000,
-    );
+    setTimeout(() => (currentUrlInput.style.backgroundColor = "#0b192c"), 1000);
 };
 customEdit.addEventListener("click", finalUrlCustom);
 
-const gen_salz = () => {
-    const csprng_base = crypto.getRandomValues(new Uint32Array(1));
-    const salz = csprng_base[0].toString(32);
+let salz = "";
+const genSalz = () => {
+    if (salz !== "") {
+        return;
+    }
+    const csprngBase = crypto.getRandomValues(new Uint32Array(1));
+    salz = csprngBase[0].toString(32);
     browser.storage.local.set({
         s: salz,
     });
-    return salz;
 };
 
-const gen_kennwort = async () => {
-    const salz = gen_salz();
-    const gen_rand_num = (Math.floor(Math.random() * 100000) + 1).toString();
-    const final_kennwort = gen_rand_num + salz;
+const genKennwort = async (num) => {
+    genSalz();
 
-    const hash_buffer = await crypto.subtle.digest(
+    const genRandNum = (Math.floor(Math.random() * num) + 1).toString();
+    // const genRandNum = "123"; // ONLY FOR TESTING
+    // console.log(genRandNum); // ONLY FOR TESTING
+    const finalKennwort = genRandNum + salz;
+
+    const hashBuffer = await crypto.subtle.digest(
         "SHA-256",
-        new TextEncoder().encode(final_kennwort),
+        new TextEncoder().encode(finalKennwort),
     );
-    const hash_array = Array.from(new Uint8Array(hash_buffer));
-    const hash_kennwort = hash_array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashedKennwort = hashArray
         .map((byte) => byte.toString(16).padStart(2, "0"))
         .join("");
-    return hash_kennwort;
+    return hashedKennwort;
 };
 
-const check_kennwort = () => {
+const checkKennwort = () => {
     browser.storage.local
         .get("k")
         .then(async (result) => {
@@ -82,9 +92,12 @@ const check_kennwort = () => {
             if (kennwort !== undefined) {
                 return;
             }
-            const hashed_kennwort = await gen_kennwort();
             browser.storage.local.set({
-                k: hashed_kennwort,
+                k: await genKennwort(100000),
+                k2: await genKennwort(10),
+                k3: await genKennwort(100),
+                k4: await genKennwort(1000),
+                k5: await genKennwort(10000),
             });
         })
         .catch((err) => {
@@ -106,7 +119,7 @@ const init = () => {
                 console.error("error getting URL. ERROR:", err);
                 return;
             });
-        check_kennwort();
+        checkKennwort();
     });
 };
 

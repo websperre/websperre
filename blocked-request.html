@@ -51,6 +51,12 @@
                 background-color: #ffffff;
                 color: #000000;
             }
+            button:disabled,
+            button[disabled] {
+                background-color: #cccccc;
+                color: #666666;
+                cursor: default;
+            }
             input {
                 background: none;
                 text-decoration: none;
@@ -58,16 +64,16 @@
                 color: #ffffff;
             }
             .fill-blocked-urls {
-                display: grid;
-                grid-template-rows: 1fr;
-                gap: 4px 4px;
                 border: 1px solid #1e3e62;
                 padding: 8px;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 4px 4px;
             }
-            /* .fill-blocked-urls > div {
-                border-bottom: dotted 1px #ffffff;
-                border-radius: 0;
-            } */
+            .fill-blocked-urls > div {
+                display: flex;
+                align-items: center;
+            }
         </style>
         <title>Blocked URL // Websperre</title>
     </head>
@@ -87,21 +93,24 @@
                     </button>
                 </p>
                 <p hidden id="password-info">
-                    A random number between 1-100.000 was set as password. Guess
-                    it correctly to see the blocked URL list.
+                    A random number between
+                    <span id="num-range">1-100.000</span> was set as password.
+                    Guess it correctly to see the blocked URL list.
                 </p>
                 <p hidden id="guess-input">
+                    <span hidden id="tries-count">0</span>
                     <input
                         type="password"
                         id="guess-password"
                         placeholder="password"
+                        required
                     />
                     <button id="guess-btn" title="Guess">Guess</button>
+                    <button hidden id="easier" title="Make guessing easier">
+                        Make it easier
+                    </button>
                 </p>
-                <div id="fill-blocked-urls" class="fill-blocked-urls">
-                    <!-- <div>new 1 <button>btn 1</button></div>
-                    <div>new 2 <button>btn 2</button></div> -->
-                </div>
+                <div id="fill-blocked-urls" class="fill-blocked-urls"></div>
             </div>
         </main>
     </body>

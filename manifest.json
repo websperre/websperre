@@ -1,21 +1,26 @@
 {
-  "manifest_version": 2,
-  "name": "Websperre",
-  "version": "1.0.0",
-  "description": "A website blocker to manage temptations.",
-  "homepage_url": "https://github.com/opp/websperre",
-  "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"],
-  "browser_action": {
-    "default_title": "Websperre",
-    "default_popup": "popup.html"
-  },
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
-  "web_accessible_resources": ["blocked-request.html"],
-  "icons": {
-    "48": "icons/websperre-48.png",
-    "96": "icons/websperre-96.png"
-  }
+    "manifest_version": 2,
+    "name": "Websperre",
+    "version": "1.0.0",
+    "description": "A website blocker to manage temptations.",
+    "homepage_url": "https://github.com/opp/websperre",
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>",
+        "storage"
+    ],
+    "browser_action": {
+        "default_title": "Websperre",
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "web_accessible_resources": ["blocked-request.html"],
+    "icons": {
+        "48": "icons/websperre-48.png",
+        "96": "icons/websperre-96.png"
+    }
 }

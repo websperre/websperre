@@ -4,37 +4,36 @@ const blockedRequestHtml = "blocked-request.html";
 const blockedRequestRedirect = browser.runtime.getURL(blockedRequestHtml);
 
 const handleRequest = (details) => {
-    console.log("b: ", details.url);
     return { redirectUrl: blockedRequestRedirect };
 };
 
-const setupWebRequestListener = (urls) => {
-    browser.webRequest.onBeforeRequest.addListener(
+const setupWebRequestListener = async (dUrls) => {
+    await browser.webRequest.onBeforeRequest.addListener(
         handleRequest,
-        { urls: urls },
+        { urls: dUrls },
         ["blocking"],
     );
 };
 
-const d_gs = (gs) => {
-    const decoded_gs = [];
-    const gs_length = gs.length;
-    if (gs_length === 0) {
-        return decoded_gs;
+const dGs = (gs) => {
+    const decodedGs = [];
+    const gsLength = gs.length;
+    if (gsLength === 0) {
+        return decodedGs;
     }
-    for (let i = 0; i < gs_length; i++) {
-        decoded_gs.push(atob(gs[i]));
+    for (let i = 0; i < gsLength; i++) {
+        decodedGs.push(atob(gs[i]));
     }
-    return decoded_gs;
+    return decodedGs;
 };
 
-const init = () => {
-    browser.storage.local
+const init = async () => {
+    await browser.storage.local
         .get("gs")
-        .then((result) => {
-            const gesperrt_seiten = result.gs || [];
-            const d_gesperrt_seiten = d_gs(gesperrt_seiten);
-            setupWebRequestListener(d_gesperrt_seiten);
+        .then(async (result) => {
+            const gesperrtSeiten = (await result.gs) || [];
+            const dGesperrtSeiten = dGs(gesperrtSeiten);
+            await setupWebRequestListener(dGesperrtSeiten);
         })
         .catch((err) => {
             console.error("error retrieving seiten. ERROR:", err);
@@ -43,3 +42,5 @@ const init = () => {
 };
 
 init();
+
+// it's not blocking when there are a lot of entries. could be issue because I'm just debugging the extension or issue with something else entirely

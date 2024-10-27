@@ -3,9 +3,12 @@
 const listBlockedBtn = document.querySelector("#list-blocked");
 const closeTabBtn = document.querySelector("#close-tab");
 const passwordInfo = document.querySelector("#password-info");
+const numRange = document.querySelector("#num-range");
 const guessInput = document.querySelector("#guess-input");
+const triesCount = document.querySelector("#tries-count");
 const guessPw = document.querySelector("#guess-password");
 const guessBtn = document.querySelector("#guess-btn");
+const easierBtn = document.querySelector("#easier");
 const fillBlockedUrls = document.querySelector("#fill-blocked-urls");
 
 const closeTab = () => window.close();
@@ -21,7 +24,157 @@ const unhidePwInfo = () => {
 };
 listBlockedBtn.addEventListener("click", unhidePwInfo);
 
-const revealBlockedList = () => {
-    console.log("reveal func");
+let savedSalz = "";
+const retrieveSalz = async () => {
+    await browser.storage.local.get("s").then((result) => {
+        savedSalz = result.s;
+    });
+};
+retrieveSalz();
+
+const dGsFill = (gs) => {
+    fillBlockedUrls.innerHTML = "";
+    const decodedGs = [];
+    const gsLength = gs.length;
+    if (gsLength === 0) {
+        fillBlockedUrls.innerHTML = "Nothing to show. Block list is empty";
+        return decodedGs;
+    }
+    for (let i = 0; i < gsLength; i++) {
+        decodedGs.push(atob(gs[i]));
+        fillBlockedUrls.innerHTML += `<div>${decodedGs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button></div>`;
+    }
+    return decodedGs;
+};
+
+// [timeout, info_update, storage_key]
+const triesToTimeout = {
+    0: [60000, "1-100.000", "k"],
+    1: [120000, "1-10.000", "k5"],
+    2: [180000, "1-1.000", "k4"],
+    3: [240000, "1-100", "k3"],
+    4: [300000, "1-10", "k2"],
+};
+// const triesToTimeout = {
+//     // for testing purposes
+//     0: [600, "1-100.000", "k"],
+//     1: [1200, "1-10.000", "k5"],
+//     2: [1800, "1-1.000", "k4"],
+//     3: [2400, "1-100", "k3"],
+//     4: [3000, "1-10", "k2"],
+// };
+
+const revealBlockedList = async () => {
+    const userInputKennwort = guessPw.value;
+    if (userInputKennwort === "") {
+        guessPw.style.backgroundColor = "#ff6500";
+        setTimeout(() => (guessPw.style.backgroundColor = "#0b192c"), 1000);
+        guessPw.focus();
+        return;
+    }
+
+    if (savedSalz === undefined) {
+        console.error(
+            "you should not be at this page yet.. or you know what you deleted",
+        );
+        return;
+    }
+
+    const finalKennwort = userInputKennwort + savedSalz;
+    const hashBuffer = await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(finalKennwort),
+    );
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashedKennwort = hashArray
+        .map((byte) => byte.toString(16).padStart(2, "0"))
+        .join("");
+
+    const triesSoFar = Number(triesCount.innerHTML);
+    const storageKey = triesToTimeout[triesSoFar][2];
+    const savedKennwort = await browser.storage.local
+        .get(storageKey)
+        .then((result) => {
+            return result[storageKey];
+        });
+
+    if (hashedKennwort === savedKennwort) {
+        fillBlockedUrls.innerHTML = "";
+        browser.storage.local
+            .get("gs")
+            .then((result) => {
+                const gesperrtSeiten = result.gs || [];
+                // const dGesperrtSeiten = dGsFill(gesperrtSeiten);
+                dGsFill(gesperrtSeiten);
+            })
+            .catch((err) => {
+                console.error(
+                    "you're not supposed to be here yet.. ERROR:",
+                    err,
+                );
+            });
+        guessBtn.disabled = true;
+        easierBtn.disabled = true;
+        guessPw.disabled = true;
+        return;
+    }
+    guessBtn.disabled = true;
+    setTimeout(() => {
+        guessBtn.disabled = false;
+        guessPw.value = "";
+        guessPw.focus();
+    }, 3000);
+    easierBtn.hidden = false;
 };
 guessBtn.addEventListener("click", revealBlockedList);
+
+const makingItEasier = () => {
+    fillBlockedUrls.innerHTML = "";
+    const triesSoFar = Number(triesCount.innerHTML);
+    let newTriesCount = triesSoFar + 1;
+    triesCount.innerHTML = newTriesCount;
+
+    try {
+        numRange.innerHTML = triesToTimeout[newTriesCount][1];
+    } catch (err) {
+        console.error("max amount of tries hit. ERROR:", err);
+        newTriesCount = newTriesCount - 1;
+        triesCount.innerHTML = newTriesCount;
+        return;
+    }
+    numRange.style.backgroundColor = "#ff6500";
+    setTimeout(() => (numRange.style.backgroundColor = "#0b192c"), 1000);
+
+    easierBtn.disabled = true;
+    guessBtn.disabled = true;
+    guessPw.disabled = true;
+    guessPw.value = "";
+    guessPw.placeholder = `disabled for ${triesToTimeout[newTriesCount][0] / 60000} mins`;
+    setTimeout(() => {
+        easierBtn.disabled = false;
+        guessBtn.disabled = false;
+        guessPw.disabled = false;
+        guessPw.value = "";
+        guessPw.placeholder = "password";
+        guessPw.focus();
+    }, triesToTimeout[newTriesCount][0]);
+};
+easierBtn.addEventListener("click", makingItEasier);
+
+const removeEntry = async (event) => {
+    if (event.target.classList.contains("remove-entry")) {
+        const removeId = event.target.id.split("-")[1];
+
+        let gsResult = await browser.storage.local.get("gs");
+        let editGs = gsResult.gs;
+        editGs.splice(removeId, 1);
+
+        await browser.storage.local.set({
+            gs: editGs,
+        });
+        gsResult = await browser.storage.local.get("gs");
+        dGsFill(gsResult.gs);
+        // the whole point is to make deleting entries harder, so should hide everything after 1 entry is deleted.
+    }
+};
+fillBlockedUrls.addEventListener("click", removeEntry);
