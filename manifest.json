@@ -18,6 +18,10 @@
         "scripts": ["background.js"],
         "persistent": false
     },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["blocked-request.js", "popup.js"]
+    }],
     "web_accessible_resources": ["blocked-request.html"],
     "icons": {
         "48": "icons/websperre-48.png",

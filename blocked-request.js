@@ -24,6 +24,20 @@ const unhidePwInfo = () => {
 };
 listBlockedBtn.addEventListener("click", unhidePwInfo);
 
+const hidePwInfo = () => {
+    if (passwordInfo.hidden === false || guessInput.hidden === false) {
+        listBlockedBtn.hidden = false;
+        guessBtn.disabled = false;
+        easierBtn.disabled = false;
+        guessPw.disabled = false;
+        guessPw.value = "";
+        passwordInfo.hidden = true;
+        guessInput.hidden = true;
+        fillBlockedUrls.innerHTML = "";
+        listBlockedBtn.focus();
+    }
+};
+
 let savedSalz = "";
 const retrieveSalz = async () => {
     await browser.storage.local.get("s").then((result) => {
@@ -55,8 +69,9 @@ const triesToTimeout = {
     3: [240000, "1-100", "k3"],
     4: [300000, "1-10", "k2"],
 };
+
+// for testing purposes
 // const triesToTimeout = {
-//     // for testing purposes
 //     0: [600, "1-100.000", "k"],
 //     1: [1200, "1-10.000", "k5"],
 //     2: [1800, "1-1.000", "k4"],
@@ -74,9 +89,7 @@ const revealBlockedList = async () => {
     }
 
     if (savedSalz === undefined) {
-        console.error(
-            "you should not be at this page yet.. or you know what you deleted",
-        );
+        console.error("you should not be at this page yet.. or you know what you deleted");
         return;
     }
 
@@ -104,14 +117,10 @@ const revealBlockedList = async () => {
             .get("gs")
             .then((result) => {
                 const gesperrtSeiten = result.gs || [];
-                // const dGesperrtSeiten = dGsFill(gesperrtSeiten);
                 dGsFill(gesperrtSeiten);
             })
             .catch((err) => {
-                console.error(
-                    "you're not supposed to be here yet.. ERROR:",
-                    err,
-                );
+                console.error("you're not supposed to be here yet.. ERROR:", err);
             });
         guessBtn.disabled = true;
         easierBtn.disabled = true;
@@ -174,7 +183,12 @@ const removeEntry = async (event) => {
         });
         gsResult = await browser.storage.local.get("gs");
         dGsFill(gsResult.gs);
-        // the whole point is to make deleting entries harder, so should hide everything after 1 entry is deleted.
+
+        const removeButtons = document.querySelectorAll(".remove-entry");
+        removeButtons.forEach((removeButton) => (removeButton.disabled = true));
+        setTimeout(() => {
+            hidePwInfo();
+        }, 3000);
     }
 };
 fillBlockedUrls.addEventListener("click", removeEntry);

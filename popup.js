@@ -28,8 +28,9 @@ const addToList = () => {
         });
 
     setTimeout(() => {
-        browser.runtime.reload(); // intentional reload
-    }, 500);
+        // browser.runtime.reload(); // intentional reload
+        window.close();
+    }, 1000);
 };
 addBtn.addEventListener("click", addToList);
 

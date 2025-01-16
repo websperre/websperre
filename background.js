@@ -4,22 +4,15 @@ const blockedRequestHtml = "blocked-request.html";
 const blockedRequestRedirect = browser.runtime.getURL(blockedRequestHtml);
 
 const handleRequest = (details) => {
+    // console.log(details.url, details.method);
     return { redirectUrl: blockedRequestRedirect };
-};
-
-const setupWebRequestListener = async (dUrls) => {
-    await browser.webRequest.onBeforeRequest.addListener(
-        handleRequest,
-        { urls: dUrls },
-        ["blocking"],
-    );
 };
 
 const dGs = (gs) => {
     const decodedGs = [];
     const gsLength = gs.length;
     if (gsLength === 0) {
-        return decodedGs;
+        return [""];
     }
     for (let i = 0; i < gsLength; i++) {
         decodedGs.push(atob(gs[i]));
@@ -27,20 +20,33 @@ const dGs = (gs) => {
     return decodedGs;
 };
 
-const init = async () => {
-    await browser.storage.local
-        .get("gs")
-        .then(async (result) => {
-            const gesperrtSeiten = (await result.gs) || [];
-            const dGesperrtSeiten = dGs(gesperrtSeiten);
-            await setupWebRequestListener(dGesperrtSeiten);
-        })
-        .catch((err) => {
-            console.error("error retrieving seiten. ERROR:", err);
-            return;
-        });
+browser.runtime.onInstalled.addListener(() => {
+    updateBlockedUrlsListener();
+});
+
+const handleStorageChange = (changes, areaName) => {
+    if (areaName === "local" && "gs" in changes) {
+        updateBlockedUrlsListener();
+    }
 };
+browser.storage.onChanged.addListener(handleStorageChange);
 
-init();
-
-// it's not blocking when there are a lot of entries. could be issue because I'm just debugging the extension or issue with something else entirely
+let dGesperrtSeiten = [];
+const updateBlockedUrlsListener = async () => {
+    try {
+        const getGs = await browser.storage.local.get("gs");
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        if (getGs.gs.length === 0) {
+            return;
+        }
+        dGesperrtSeiten = dGs(getGs.gs);
+        browser.webRequest.onBeforeRequest.removeListener(handleRequest);
+        browser.webRequest.onBeforeRequest.addListener(
+            handleRequest,
+            { urls: dGesperrtSeiten },
+            ["blocking"],
+        );
+    } catch (err) {
+        console.error("error updating blocked url listener. ERROR:", err);
+    }
+};
