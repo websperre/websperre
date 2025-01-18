@@ -1,1 +1,1 @@
-# websperre
+# websperre (lite)
