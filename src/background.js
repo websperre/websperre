@@ -20,18 +20,11 @@ const dGs = (gs) => {
     return decodedGs;
 };
 
-const handleStorageChange = (changes, areaName) => {
-    if (areaName === "local" && "gs" in changes) {
-        updateBlockedUrlsListener();
-    }
-};
-browser.storage.onChanged.addListener(handleStorageChange);
-
 let dGesperrtSeiten = [];
 const updateBlockedUrlsListener = async () => {
     try {
         const getGs = await browser.storage.local.get("gs");
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        await new Promise((resolve) => setTimeout(resolve, 25));
         if (getGs.gs.length === 0) {
             return;
         }
@@ -47,7 +40,13 @@ const updateBlockedUrlsListener = async () => {
     }
 };
 
-browser.runtime.onInstalled.addListener(updateBlockedUrlsListener);
+const handleStorageChange = (changes, areaName) => {
+    if (areaName === "local" && "gs" in changes) {
+        updateBlockedUrlsListener();
+    }
+};
+browser.storage.onChanged.addListener(handleStorageChange);
 
+browser.runtime.onInstalled.addListener(updateBlockedUrlsListener);
 browser.tabs.onActivated.addListener(updateBlockedUrlsListener);
 browser.tabs.onUpdated.addListener(updateBlockedUrlsListener);
