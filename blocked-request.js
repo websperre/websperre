@@ -56,7 +56,7 @@ const dGsFill = (gs) => {
     }
     for (let i = 0; i < gsLength; i++) {
         decodedGs.push(atob(gs[i]));
-        fillBlockedUrls.innerHTML += `<div>${decodedGs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button></div>`;
+        fillBlockedUrls.innerText += `<div>${decodedGs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button></div>`;
     }
     return decodedGs;
 };
@@ -141,14 +141,14 @@ const makingItEasier = () => {
     fillBlockedUrls.innerHTML = "";
     const triesSoFar = Number(triesCount.innerHTML);
     let newTriesCount = triesSoFar + 1;
-    triesCount.innerHTML = newTriesCount;
+    triesCount.innerText = newTriesCount;
 
     try {
-        numRange.innerHTML = triesToTimeout[newTriesCount][1];
+        numRange.innerText = triesToTimeout[newTriesCount][1];
     } catch (err) {
         console.error("max amount of tries hit. ERROR:", err);
         newTriesCount = newTriesCount - 1;
-        triesCount.innerHTML = newTriesCount;
+        triesCount.innerText = newTriesCount;
         return;
     }
     numRange.style.backgroundColor = "#ff6500";

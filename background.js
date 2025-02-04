@@ -20,10 +20,6 @@ const dGs = (gs) => {
     return decodedGs;
 };
 
-browser.runtime.onInstalled.addListener(() => {
-    updateBlockedUrlsListener();
-});
-
 const handleStorageChange = (changes, areaName) => {
     if (areaName === "local" && "gs" in changes) {
         updateBlockedUrlsListener();
@@ -50,3 +46,8 @@ const updateBlockedUrlsListener = async () => {
         console.error("error updating blocked url listener. ERROR:", err);
     }
 };
+
+browser.runtime.onInstalled.addListener(updateBlockedUrlsListener);
+
+browser.tabs.onActivated.addListener(updateBlockedUrlsListener);
+browser.tabs.onUpdated.addListener(updateBlockedUrlsListener);
