@@ -1,14 +1,15 @@
 {
     "manifest_version": 2,
     "name": "Websperre Lite",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "A lighter version of Websperre: the website blocker to manage temptations.",
-    "homepage_url": "https://github.com/opp/websperre/tree/lite",
+    "homepage_url": "https://github.com/websperre/websperre/tree/main/lite",
     "permissions": [
         "webRequest",
         "webRequestBlocking",
         "<all_urls>",
-        "storage"
+        "storage",
+        "tabs"
     ],
     "browser_action": {
         "default_popup": "popup.html"
