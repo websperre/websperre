@@ -12,7 +12,7 @@ const dGs = (gs) => {
     const decodedGs = [];
     const gsLength = gs.length;
     if (gsLength === 0) {
-        return [""];
+        return decodedGs;
     }
     for (let i = 0; i < gsLength; i++) {
         decodedGs.push(atob(gs[i]));
@@ -25,7 +25,7 @@ const updateBlockedUrlsListener = async () => {
     try {
         const getGs = await browser.storage.local.get("gs");
         await new Promise((resolve) => setTimeout(resolve, 25));
-        if (getGs.gs.length === 0) {
+        if (getGs.gs === undefined || getGs.gs.length === 0) {
             return;
         }
         dGesperrtSeiten = dGs(getGs.gs);

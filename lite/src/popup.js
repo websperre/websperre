@@ -45,7 +45,7 @@ exactUrl.addEventListener("click", finalUrlExact);
 const finalUrlCustom = () => {
     currentUrlInput.style.backgroundColor = "#ff6500";
     currentUrlInput.focus();
-    currentUrlInput.addEventListener("keyup", (e) => {
+    currentUrlInput.addEventListener("keyup", () => {
         finalUrlInput.value = currentUrlInput.value;
     });
     setTimeout(() => (currentUrlInput.style.backgroundColor = "#0b192c"), 1000);

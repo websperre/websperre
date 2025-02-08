@@ -56,27 +56,27 @@ const dGsFill = (gs) => {
     }
     for (let i = 0; i < gsLength; i++) {
         decodedGs.push(atob(gs[i]));
-        fillBlockedUrls.innerText += `<div>${decodedGs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button></div>`;
+        fillBlockedUrls.innerHTML += `<div>${decodedGs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button></div>`;
     }
     return decodedGs;
 };
 
-// [timeout, info_update, storage_key]
+// [timeout, info_update]
 const triesToTimeout = {
-    0: [60000, "1-100.000", "k"],
-    1: [120000, "1-10.000", "k5"],
-    2: [180000, "1-1.000", "k4"],
-    3: [240000, "1-100", "k3"],
-    4: [300000, "1-10", "k2"],
+    0: [60000, "1-100.000"],
+    1: [120000, "1-10.000"],
+    2: [180000, "1-1.000"],
+    3: [240000, "1-100"],
+    4: [300000, "1-10"],
 };
 
-// for testing purposes
+// // for testing purposes
 // const triesToTimeout = {
-//     0: [600, "1-100.000", "k"],
-//     1: [1200, "1-10.000", "k5"],
-//     2: [1800, "1-1.000", "k4"],
-//     3: [2400, "1-100", "k3"],
-//     4: [3000, "1-10", "k2"],
+//     0: [600, "1-100.000"],
+//     1: [1200, "1-10.000"],
+//     2: [1800, "1-1.000"],
+//     3: [2400, "1-100"],
+//     4: [3000, "1-10"],
 // };
 
 const revealBlockedList = async () => {
@@ -90,6 +90,7 @@ const revealBlockedList = async () => {
 
     if (savedSalz === undefined) {
         console.error("you should not be at this page yet.. or you know what you deleted");
+        alert("you should not be at this page yet or you know what you deleted: the salt");
         return;
     }
 
@@ -104,11 +105,10 @@ const revealBlockedList = async () => {
         .join("");
 
     const triesSoFar = Number(triesCount.innerHTML);
-    const storageKey = triesToTimeout[triesSoFar][2];
     const savedKennwort = await browser.storage.local
-        .get(storageKey)
+        .get("k")
         .then((result) => {
-            return result[storageKey];
+            return result.k[triesSoFar];
         });
 
     if (hashedKennwort === savedKennwort) {
@@ -146,9 +146,11 @@ const makingItEasier = () => {
     try {
         numRange.innerText = triesToTimeout[newTriesCount][1];
     } catch (err) {
-        console.error("max amount of tries hit. ERROR:", err);
+        console.error("ERROR:", err);
+        alert("you are at rock bottom. cannot go lower than this");
         newTriesCount = newTriesCount - 1;
         triesCount.innerText = newTriesCount;
+        easierBtn.disabled = true;
         return;
     }
     numRange.style.backgroundColor = "#ff6500";
