@@ -26,7 +26,7 @@ const updateBlockedUrlsListener = async () => {
         const getGs = await browser.storage.local.get("gs");
         await new Promise((resolve) => setTimeout(resolve, 25));
         if (getGs.gs === undefined || getGs.gs.length === 0) {
-            return;
+	    return;
         }
         dGesperrtSeiten = dGs(getGs.gs);
         browser.webRequest.onBeforeRequest.removeListener(handleRequest);

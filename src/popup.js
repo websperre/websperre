@@ -11,7 +11,8 @@ let currentTabUrl = "";
 let urlTypeUrl = "";
 
 const shuffleFisherYates = (gs) => {
-    if (gs.length <= 2) return gs;
+    if (gs.length <= 2)
+	return gs;
     let m = gs.length, t, i;
     while (m) {
         i = Math.floor(Math.random() * m--);
@@ -40,7 +41,6 @@ const addToList = () => {
         });
 
     setTimeout(() => {
-        // browser.runtime.reload(); // intentional reload
         window.close();
     }, 1000);
 };
@@ -68,9 +68,8 @@ customEdit.addEventListener("click", finalUrlCustom);
 
 let salz = "";
 const genSalz = () => {
-    if (salz !== "") {
+    if (salz !== "")
         return;
-    }
     const csprngBase = crypto.getRandomValues(new Uint32Array(1));
     salz = csprngBase[0].toString(32);
     browser.storage.local.set({

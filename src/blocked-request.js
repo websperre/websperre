@@ -56,7 +56,7 @@ const dGsFill = (gs) => {
     }
     for (let i = 0; i < gsLength; i++) {
         decodedGs.push(atob(gs[i]));
-        fillBlockedUrls.innerHTML += `<div>${decodedGs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button></div>`;
+        fillBlockedUrls.innerHTML += `<div>${decodedGs[i]}</div> <button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button>`;
     }
     return decodedGs;
 };
