@@ -21,7 +21,7 @@ const dGsFill = (gs) => {
         return;
     }
     for (let i = 0; i < gsLength; i++) {
-        fillBlockedUrls.innerHTML += `<div>${gs[i]}</div> <div><button id="removeEntry-${i}" class="remove-entry" title="Remove '${gs[i]}' from block list">Remove</button></div>`;
+        fillBlockedUrls.innerHTML += `<div>${gs[i]}</div> <button id="removeEntry-${i}" class="remove-entry" title="Remove '${gs[i]}' from block list">Remove</button>`;
     }
 };
 
