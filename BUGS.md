@@ -10,5 +10,5 @@
 ~3. Manifest v3: removed URL from block list still gets blocked from loading
     - Is fixed if/when another URL is added to the block list.~
 
-4. After removing everything from block list the very last item still gets blocked.
-    - Gets resolved when a new item is added to the block list.
+~4. After removing everything from block list the very last item still gets blocked.
+    - Gets resolved when a new item is added to the block list.~

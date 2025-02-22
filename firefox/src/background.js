@@ -24,9 +24,9 @@ let dGesperrtSeiten = [];
 const updateBlockedUrlsListener = async () => {
     try {
         const getGs = await browser.storage.local.get("gs");
-        await new Promise((resolve) => setTimeout(resolve, 25));
         if (getGs.gs === undefined || getGs.gs.length === 0) {
-	    return;
+            browser.webRequest.onBeforeRequest.removeListener(handleRequest);
+            return;
         }
         dGesperrtSeiten = dGs(getGs.gs);
         browser.webRequest.onBeforeRequest.removeListener(handleRequest);
@@ -48,5 +48,3 @@ const handleStorageChange = (changes, areaName) => {
 browser.storage.onChanged.addListener(handleStorageChange);
 
 browser.runtime.onInstalled.addListener(updateBlockedUrlsListener);
-browser.tabs.onActivated.addListener(updateBlockedUrlsListener);
-browser.tabs.onUpdated.addListener(updateBlockedUrlsListener);
