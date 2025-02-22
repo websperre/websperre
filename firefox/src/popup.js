@@ -12,7 +12,7 @@ let urlTypeUrl = "";
 
 const shuffleFisherYates = (gs) => {
     if (gs.length <= 2)
-	return gs;
+        return gs;
     let m = gs.length, t, i;
     while (m) {
         i = Math.floor(Math.random() * m--);

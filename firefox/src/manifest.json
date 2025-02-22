@@ -5,19 +5,17 @@
     "description": "A website blocker to manage temptations.",
     "homepage_url": "https://github.com/websperre/websperre",
     "permissions": [
-        "webRequest",
-        "webRequestBlocking",
         "<all_urls>",
         "storage",
-        "tabs"
+        "webRequest",
+        "webRequestBlocking"
     ],
     "browser_action": {
         "default_title": "Websperre",
         "default_popup": "popup.html"
     },
     "background": {
-        "scripts": ["background.js"],
-        "persistent": false
+        "scripts": ["background.js"]
     },
     "content_scripts": [
         {
