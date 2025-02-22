@@ -18,14 +18,19 @@ const dGs = (gs) => {
 let dGesperrtSeiten = [];
 const updateBlockedUrlsListener = async () => {
     try {
-        const getGs = await chrome.storage.local.get("gs");
+	const getGs = await chrome.storage.local.get("gs");
         await new Promise((resolve) => setTimeout(resolve, 25));
         if (getGs.gs === undefined || getGs.gs.length === 0) {
 	    return;
         }
         dGesperrtSeiten = dGs(getGs.gs);
 
-	// TODO: BUGS.md point 3
+	const currRulesLength = (await chrome.declarativeNetRequest.getDynamicRules()).length;
+	const removeRuleIds = Array.from({length: currRulesLength}, (_, i) => i + 1);
+	chrome.declarativeNetRequest.updateDynamicRules({
+	    removeRuleIds: removeRuleIds,
+	});
+
 	const rules = dGesperrtSeiten.map((site, index) => ({
 	    id: index+1,
 	    priority: 1,
@@ -40,13 +45,10 @@ const updateBlockedUrlsListener = async () => {
 		resourceTypes: ["main_frame"]
 	    }
 	}));
-	console.log("updated or pinged rules: ", rules);
 
 	chrome.declarativeNetRequest.updateDynamicRules({
-	    addRules: rules,
-	    removeRuleIds: dGesperrtSeiten.map((_, index) => index+1)
+	    addRules: rules
 	});
-
     } catch (err) {
         console.error("error updating blocked url listener. ERROR:", err);
     }
@@ -60,5 +62,5 @@ const handleStorageChange = (changes, areaName) => {
 chrome.storage.onChanged.addListener(handleStorageChange);
 
 chrome.runtime.onInstalled.addListener(updateBlockedUrlsListener);
-chrome.tabs.onActivated.addListener(updateBlockedUrlsListener);
-chrome.tabs.onUpdated.addListener(updateBlockedUrlsListener);
+// chrome.tabs.onActivated.addListener(updateBlockedUrlsListener);
+// chrome.tabs.onUpdated.addListener(updateBlockedUrlsListener);

@@ -7,8 +7,7 @@
     "permissions": [
 	"declarativeNetRequest",
 	"declarativeNetRequestFeedback",
-        "storage",
-        "tabs"
+        "storage"
     ],
     "host_permissions": ["*://*/*"],
     "background": {
@@ -16,9 +15,7 @@
     },
     "content_scripts": [
         {
-            "matches": [
-                "*://*/*"
-            ],
+            "matches": ["*://*/*"],
             "js": [
                 "blocked-request.js",
                 "popup.js"
@@ -27,12 +24,8 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": [
-                "blocked-request.html"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
+            "resources": ["blocked-request.html"],
+            "matches": ["*://*/*"]
         }
     ],
     "icons": {

@@ -44,7 +44,7 @@ const addToList = () => {
         window.close();
     }, 1000);
 };
-addBtn.addEventListener("click", addToList);
+addBtn?.addEventListener("click", addToList);
 
 const finalUrlRegexMatch = () => {
     finalUrlInput.value = "*://" + urlTypeUrl.hostname + "/*";
@@ -80,9 +80,9 @@ const genSalz = () => {
 const genKennwort = async (num) => {
     genSalz();
 
-    // const genRandNum = (Math.floor(Math.random() * num) + 1).toString();
-    const genRandNum = "123"; // ONLY FOR TESTING
-    console.log(genRandNum); // ONLY FOR TESTING
+    const genRandNum = (Math.floor(Math.random() * num) + 1).toString();
+    // const genRandNum = "123"; // ONLY FOR TESTING
+    // console.log(genRandNum); // ONLY FOR TESTING
 
     const finalKennwort = genRandNum + salz;
     const hashBuffer = await crypto.subtle.digest(

@@ -12,7 +12,7 @@ const easierBtn = document.querySelector("#easier");
 const fillBlockedUrls = document.querySelector("#fill-blocked-urls");
 
 const closeTab = () => window.close();
-closeTabBtn.addEventListener("click", closeTab);
+closeTabBtn?.addEventListener("click", closeTab);
 
 const unhidePwInfo = () => {
     if (passwordInfo.hidden === true || guessInput.hidden === true) {
