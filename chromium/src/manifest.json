@@ -1,0 +1,46 @@
+{
+    "manifest_version": 3,
+    "name": "Websperre",
+    "version": "0.1.0",
+    "description": "A website blocker to manage temptations.",
+    "homepage_url": "https://github.com/websperre/websperre",
+    "permissions": [
+	"declarativeNetRequest",
+	"declarativeNetRequestFeedback",
+        "storage",
+        "tabs"
+    ],
+    "host_permissions": ["*://*/*"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "blocked-request.js",
+                "popup.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "blocked-request.html"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "icons": {
+        "48": "icons/websperre-48.png",
+        "96": "icons/websperre-96.png"
+    },
+    "action": {
+        "default_title": "Websperre",
+        "default_popup": "popup.html"
+    }
+}

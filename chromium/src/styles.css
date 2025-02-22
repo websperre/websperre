@@ -1,0 +1,109 @@
+html {
+    width: max-content;
+    height: max-content;
+}
+body {
+    font-family: system-ui, Arial, Helvetica, sans-serif;
+    background-color: #0b192c;
+    color: #ffffff;
+}
+body * {
+    font-size: 1.05em;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+nav {
+    text-align: center;
+    background-color: #1e3e62;
+    padding: 1px;
+}
+nav > a {
+    text-decoration: none;
+    color: #ffffff;
+}
+nav > a:hover {
+    color: #ff6500;
+}
+main {
+    margin: 200px;
+    padding: 50px;
+    border: 3px dotted #1e3e62;
+    border-radius: 0;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+input {
+    background: none;
+    text-decoration: none;
+    outline: none;
+    color: #ffffff;
+}
+input[type="url"] {
+    background: none;
+    text-decoration: none;
+    outline: none;
+    border-width: 0;
+    border-radius: 0;
+    border-bottom: 1px dotted #ffffff;
+    color: #ffffff;
+    width: 99%;
+}
+input[type="text"] {
+    background: none;
+    text-decoration: none;
+    outline: none;
+    border-width: 0;
+    border-radius: 0;
+    border-bottom: 1px dotted #ffffff;
+    width: 99%;
+}
+input[type="radio"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    transition: 0.2s all linear;
+}
+input[type="radio"]:checked {
+    border: 6px solid white;
+}
+button,
+legend {
+    border: 0;
+    color: #ffffff;
+    background-color: #1e3e62;
+    padding: 4px 8px;
+}
+button:hover {
+    color: #ff6500;
+    cursor: pointer;
+}
+button:active {
+    background-color: #ffffff;
+    color: #000000;
+}
+button:disabled,
+button[disabled] {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: default;
+}
+
+.fill-blocked-urls {
+    border: 1px solid #1e3e62;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 4px;
+}
+.fill-blocked-urls > div {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #1e3e62;
+    border-radius: 0;
+    padding: 5px;
+}

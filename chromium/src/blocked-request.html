@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+	<link rel="stylesheet" href="styles.css">
+	<style>
+	  html {
+	      width: 100vw;
+	      height: 100vh;
+	  }
+	 </style>
+        <script src="blocked-request.js" type="text/javascript" defer></script>
+        <title>Blocked URL // Websperre</title>
+    </head>
+    <body>
+        <nav>
+            <a href="https://github.com/websperre/websperre" target="_blank">
+                <h3>Websperre</h3>
+            </a>
+        </nav>
+        <main>
+            <div class="center">
+                <h2>Blocked URL</h2>
+                <p>
+                    <button id="close-tab" title="Close tab">Close tab</button>
+                    <button id="list-blocked" title="List all blocked URLs">
+                        List all blocked URLs
+                    </button>
+                </p>
+                <p hidden id="password-info">
+                    A random number between
+                    <span id="num-range">1-100.000</span> was set as password.
+                    Guess it correctly to see the blocked URL list.
+                </p>
+                <p hidden id="guess-input">
+                    <span hidden id="tries-count">0</span>
+                    <input
+                        type="password"
+                        id="guess-password"
+                        placeholder="password"
+                        required
+                    />
+                    <button id="guess-btn" title="Guess">Guess</button>
+                    <button hidden id="easier" title="Make guessing easier">
+                        Make it easier
+                    </button>
+                </p>
+                <div id="fill-blocked-urls" class="fill-blocked-urls"></div>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+	<link rel="stylesheet" href="styles.css">
+        <script src="popup.js" type="text/javascript" defer></script>
+        <title>Websperre</title>
+    </head>
+    <body>
+        <nav>
+            <a href="https://github.com/websperre/websperre" target="_blank">
+                <h3>Websperre</h3>
+            </a>
+        </nav>
+        <div>
+            <p><i>URL:</i> <input type="url" id="current-url" title="URL" /></p>
+            <fieldset>
+                <legend>Block options:</legend>
+                <div>
+                    <input
+                        type="radio"
+                        id="regex-match"
+                        name="edit-url"
+                        value="Regex match entire domain"
+                        title="Regex match entire domain"
+                        checked
+                    />
+                    <label for="regex-match" title="Regex match entire domain">
+                        Regex match entire domain
+                    </label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="exact-url"
+                        name="edit-url"
+                        value="Exactly match URL"
+                        title="Exactly match URL"
+                    />
+                    <label for="exact-url" title="Exactly match URL">
+                        Exactly match URL
+                    </label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="custom-edit"
+                        name="edit-url"
+                        value="Custom edit"
+                        title="Custom edit"
+                    />
+                    <label for="custom-edit" title="Custom edit">
+                        Custom edit
+                    </label>
+                </div>
+                <p>
+                    <i>Final URL to block:</i>
+                    <input
+                        type="text"
+                        id="final-url"
+                        title="(disabled input) Final URL to block"
+                        disabled
+                    />
+                </p>
+                <div class="center">
+                    <button title="Add URL to block list" id="add-button">
+                        Add URL to block list
+                    </button>
+                </div>
+            </fieldset>
+        </div>
+    </body>
+</html>
