@@ -12,7 +12,7 @@ let urlTypeUrl = "";
 
 const shuffleFisherYates = (gs) => {
     if (gs.length <= 2)
-	return gs;
+        return gs;
     let m = gs.length, t, i;
     while (m) {
         i = Math.floor(Math.random() * m--);
@@ -24,6 +24,9 @@ const shuffleFisherYates = (gs) => {
 }
 
 const addToList = () => {
+    const finalValue = finalUrlInput.value;
+    if (finalValue === "")
+        return;
     chrome.storage.local
         .get("gs")
         .then((result) => {
@@ -49,12 +52,12 @@ addBtn?.addEventListener("click", addToList);
 const finalUrlRegexMatch = () => {
     finalUrlInput.value = "*://" + urlTypeUrl.hostname + "/*";
 };
-regexMatch.addEventListener("click", finalUrlRegexMatch);
+regexMatch?.addEventListener("click", finalUrlRegexMatch);
 
 const finalUrlExact = () => {
     finalUrlInput.value = currentTabUrl + "*";
 };
-exactUrl.addEventListener("click", finalUrlExact);
+exactUrl?.addEventListener("click", finalUrlExact);
 
 const finalUrlCustom = () => {
     currentUrlInput.style.backgroundColor = "#ff6500";
@@ -64,7 +67,7 @@ const finalUrlCustom = () => {
     });
     setTimeout(() => (currentUrlInput.style.backgroundColor = "#0b192c"), 1000);
 };
-customEdit.addEventListener("click", finalUrlCustom);
+customEdit?.addEventListener("click", finalUrlCustom);
 
 let salz = "";
 const genSalz = () => {

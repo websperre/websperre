@@ -24,6 +24,9 @@ const shuffleFisherYates = (gs) => {
 }
 
 const addToList = () => {
+    const finalValue = finalUrlInput.value;
+    if (finalValue === "")
+        return;
     browser.storage.local
         .get("gs")
         .then((result) => {
