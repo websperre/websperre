@@ -25,13 +25,12 @@ const shuffleFisherYates = (gs) => {
 
 const addToList = () => {
     const finalValue = finalUrlInput.value;
-    if (finalValue === "")
-        return;
+    if (finalValue === "") return;
     chrome.storage.local
         .get("gs")
         .then((result) => {
             let gesperrtSeiten = result.gs || [];
-            gesperrtSeiten.push(btoa(finalUrlInput.value));
+            gesperrtSeiten.push(btoa(finalValue));
             addBtn.innerHTML = "Added";
             addBtn.disabled = true;
             gesperrtSeiten = shuffleFisherYates(gesperrtSeiten);
