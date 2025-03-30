@@ -51,12 +51,23 @@ const dGsFill = (gs) => {
     const decodedGs = [];
     const gsLength = gs.length;
     if (gsLength === 0) {
-        fillBlockedUrls.innerHTML = "Nothing to show. Block list is empty";
+        fillBlockedUrls.textContent = "Nothing to show. Block list is empty";
         return decodedGs;
     }
     for (let i = 0; i < gsLength; i++) {
         decodedGs.push(atob(gs[i]));
-        fillBlockedUrls.innerHTML += `<div>${decodedGs[i]}</div> <button id="removeEntry-${i}" class="remove-entry" title="Remove '${decodedGs[i]}' from block list">Remove</button>`;
+
+        const blockedURL = document.createElement("div");
+        blockedURL.textContent = decodedGs[i];
+
+        const removeButton       = document.createElement("button");
+        removeButton.id          = `removeEntry-${i}`;
+        removeButton.className   = "remove-entry";
+        removeButton.title       = `Remove '${decodedGs[i]}' from block list`;
+        removeButton.textContent = "Remove";
+
+        fillBlockedUrls.appendChild(blockedURL);
+        fillBlockedUrls.appendChild(removeButton);
     }
     return decodedGs;
 };
