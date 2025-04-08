@@ -64,4 +64,6 @@ const handleStorageChange = (changes, areaName) => {
 };
 chrome.storage.onChanged.addListener(handleStorageChange);
 
+chrome.tabs.onActivated.addListener(updateBlockedUrlsListener);
+chrome.tabs.onUpdated.addListener(updateBlockedUrlsListener);
 chrome.runtime.onInstalled.addListener(updateBlockedUrlsListener);

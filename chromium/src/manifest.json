@@ -5,8 +5,9 @@
     "description": "A website blocker to manage temptations.",
     "homepage_url": "https://github.com/websperre/websperre",
     "permissions": [
-	"declarativeNetRequest",
-	"declarativeNetRequestFeedback",
+        "declarativeNetRequest",
+        "declarativeNetRequestFeedback",
+        "tabs",
         "storage"
     ],
     "host_permissions": ["*://*/*"],

@@ -6,6 +6,7 @@
     "homepage_url": "https://github.com/websperre/websperre",
     "permissions": [
         "<all_urls>",
+        "tabs",
         "storage",
         "webRequest",
         "webRequestBlocking"

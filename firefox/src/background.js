@@ -47,4 +47,6 @@ const handleStorageChange = (changes, areaName) => {
 };
 browser.storage.onChanged.addListener(handleStorageChange);
 
+browser.tabs.onUpdated.addListener(updateBlockedUrlsListener);
+browser.tabs.onActivated.addListener(updateBlockedUrlsListener);
 browser.runtime.onInstalled.addListener(updateBlockedUrlsListener);
