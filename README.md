@@ -4,6 +4,8 @@
 
 Websperre differs from other "be focused by blocking this site" extensions by setting the unlock key by itself (i.e. the user does not decide what the password will be) and blocked websites only become accessible again if the user removes it from the block list.
 
+[![Get the Addon](./screenshots/icon/firefox.png)](https://addons.mozilla.org/en-US/firefox/addon/websperre)
+
 ## Features
 
 - Regex match the entire domain, i.e. block an entire website.
