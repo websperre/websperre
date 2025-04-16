@@ -72,23 +72,6 @@ const dGsFill = (gs) => {
     return decodedGs;
 };
 
-// [timeout, info_update]
-const triesToTimeout = {
-    0: [60000, "1-100.000"],
-    1: [120000, "1-10.000"],
-    2: [180000, "1-1.000"],
-    3: [240000, "1-100"],
-    4: [300000, "1-10"],
-};
-
-// // for testing purposes
-// const triesToTimeout = {
-//     0: [600, "1-100.000"],
-//     1: [1200, "1-10.000"],
-//     2: [1800, "1-1.000"],
-//     3: [2400, "1-100"],
-//     4: [3000, "1-10"],
-// };
 
 const revealBlockedList = async () => {
     const userInputKennwort = guessPw.value;
@@ -143,10 +126,63 @@ const revealBlockedList = async () => {
         guessBtn.disabled = false;
         guessPw.value = "";
         guessPw.focus();
-    }, 3000);
+    }, 3*1000);
     easierBtn.hidden = false;
 };
 guessBtn.addEventListener("click", revealBlockedList);
+
+// [timeout, info_update]
+const triesToTimeout = {
+    0: [1*60*1000, "1-100.000"],
+    1: [2*60*1000, "1-10.000"],
+    2: [3*60*1000, "1-1.000"],
+    3: [4*60*1000, "1-100"],
+    4: [5*60*1000, "1-10"],
+};
+
+// // for testing purposes
+// const triesToTimeout = {
+//     0: [1*1000, "1-100.000"],
+//     1: [1*10*1000, "1-10.000"],
+//     2: [2*10*1000, "1-1.000"],
+//     3: [3*10*1000, "1-100"],
+//     4: [4*10*1000, "1-10"],
+// };
+
+let timerOn        = false;
+let timeoutCounter = 0;
+let oneSecTimeout;
+let timeout;
+
+const timedCount = () => {
+    timeoutCounter += 1000;
+    if (timeoutCounter > timeout)
+        stopCount();
+    else
+        oneSecTimeout = setTimeout(timedCount, 1*1000);
+};
+
+const startCount = () => {
+    if (!timerOn) {
+        timerOn = true;
+        timedCount();
+    }
+};
+
+const stopCount = () => {
+    clearTimeout(oneSecTimeout);
+    timerOn = false;
+    if (timeoutCounter > timeout) {
+        easierBtn.disabled = false;
+        guessBtn.disabled = false;
+        guessPw.disabled = false;
+        guessPw.value = "";
+        guessPw.placeholder = "password";
+        guessPw.focus();
+        timeoutCounter = 0;
+        timeout = 0;
+    }
+}
 
 const makingItEasier = () => {
     fillBlockedUrls.innerHTML = "";
@@ -172,14 +208,12 @@ const makingItEasier = () => {
     guessPw.disabled = true;
     guessPw.value = "";
     guessPw.placeholder = `disabled for ${triesToTimeout[newTriesCount][0] / 60000} mins`;
-    setTimeout(() => {
-        easierBtn.disabled = false;
-        guessBtn.disabled = false;
-        guessPw.disabled = false;
-        guessPw.value = "";
-        guessPw.placeholder = "password";
-        guessPw.focus();
-    }, triesToTimeout[newTriesCount][0]);
+
+    timeout = triesToTimeout[newTriesCount][0];
+    startCount();
+
+    window.addEventListener("blur", stopCount);
+    window.addEventListener("focus", startCount);
 };
 easierBtn.addEventListener("click", makingItEasier);
 
