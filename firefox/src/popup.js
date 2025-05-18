@@ -46,17 +46,17 @@ const addToList = () => {
         window.close();
     }, 1000);
 };
-addBtn.addEventListener("click", addToList);
+addBtn?.addEventListener("click", addToList);
 
 const finalUrlRegexMatch = () => {
     finalUrlInput.value = "*://" + urlTypeUrl.hostname + "/*";
 };
-regexMatch.addEventListener("click", finalUrlRegexMatch);
+regexMatch?.addEventListener("click", finalUrlRegexMatch);
 
 const finalUrlExact = () => {
     finalUrlInput.value = currentTabUrl + "*";
 };
-exactUrl.addEventListener("click", finalUrlExact);
+exactUrl?.addEventListener("click", finalUrlExact);
 
 const finalUrlCustom = () => {
     currentUrlInput.style.backgroundColor = "#ff6500";
@@ -66,7 +66,7 @@ const finalUrlCustom = () => {
     });
     setTimeout(() => (currentUrlInput.style.backgroundColor = "#0b192c"), 1000);
 };
-customEdit.addEventListener("click", finalUrlCustom);
+customEdit?.addEventListener("click", finalUrlCustom);
 
 let salz = "";
 const genSalz = () => {
@@ -118,8 +118,7 @@ const checkKennwort = () => {
 
 const init = () => {
     window.addEventListener("load", () => {
-        browser.tabs
-            .query({ currentWindow: true, active: true })
+        browser.tabs?.query({ currentWindow: true, active: true })
             .then((tabs) => {
                 currentTabUrl = tabs[0].url;
                 currentUrlInput.value = currentTabUrl;

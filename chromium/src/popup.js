@@ -118,8 +118,7 @@ const checkKennwort = () => {
 
 const init = () => {
     window.addEventListener("load", () => {
-        chrome.tabs
-            .query({ currentWindow: true, active: true })
+        chrome.tabs?.query({ currentWindow: true, active: true })
             .then((tabs) => {
                 currentTabUrl = tabs[0].url;
                 currentUrlInput.value = currentTabUrl;

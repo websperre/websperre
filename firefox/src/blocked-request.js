@@ -12,7 +12,7 @@ const easierBtn = document.querySelector("#easier");
 const fillBlockedUrls = document.querySelector("#fill-blocked-urls");
 
 const closeTab = () => window.close();
-closeTabBtn.addEventListener("click", closeTab);
+closeTabBtn?.addEventListener("click", closeTab);
 
 const unhidePwInfo = () => {
     if (passwordInfo.hidden === true || guessInput.hidden === true) {
@@ -22,7 +22,7 @@ const unhidePwInfo = () => {
         guessPw.focus();
     }
 };
-listBlockedBtn.addEventListener("click", unhidePwInfo);
+listBlockedBtn?.addEventListener("click", unhidePwInfo);
 
 const hidePwInfo = () => {
     if (passwordInfo.hidden === false || guessInput.hidden === false) {
@@ -129,7 +129,7 @@ const revealBlockedList = async () => {
     }, 3*1000);
     easierBtn.hidden = false;
 };
-guessBtn.addEventListener("click", revealBlockedList);
+guessBtn?.addEventListener("click", revealBlockedList);
 
 // [timeout, info_update]
 const triesToTimeout = {
@@ -215,7 +215,7 @@ const makingItEasier = () => {
     window.addEventListener("blur", stopCount);
     window.addEventListener("focus", startCount);
 };
-easierBtn.addEventListener("click", makingItEasier);
+easierBtn?.addEventListener("click", makingItEasier);
 
 const removeEntry = async (event) => {
     if (event.target.classList.contains("remove-entry")) {
@@ -238,4 +238,4 @@ const removeEntry = async (event) => {
         }, 3000);
     }
 };
-fillBlockedUrls.addEventListener("click", removeEntry);
+fillBlockedUrls?.addEventListener("click", removeEntry);
